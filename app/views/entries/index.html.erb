@@ -1,23 +1,22 @@
 <h1>Listing entries</h1>
 
-<table>
+<table cellpadding="10">
   <tr>
     <th>Date</th>
-    <th>Followers ary</th>
-    <th>Recently unfollowed</th>
-    <th></th>
-    <th></th>
-    <th></th>
+    <th>Follower count</th>
+    <th>Recent unfollows</th>
+    <th>Recent follows</th>
   </tr>
 
 <% @entries.each do |entry| %>
   <tr>
     <td><%= entry.date %></td>
-    <td><%= entry.followers_ary %></td>
-    <td><%= entry.recently_unfollowed %></td>
-    <td><%= link_to 'Show', entry %></td>
-    <td><%= link_to 'Edit', edit_entry_path(entry) %></td>
-    <td><%= link_to 'Destroy', entry, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <td><%= entry.followers_ary.count %></td>
+    <td><%= entry.recently_unfollowed.join(", ") %></td>
+    <% prev = Entry.find_by_id(entry.id - 1) %> <% if prev.nil? %><td></td><% else %>
+    <% x = prev.followers_ary + entry.followers_ary; x.uniq! %>
+    <% x = x - entry.recently_unfollowed - prev.followers_ary  %>
+    <td><strong><%= x.join(", ")  %></strong></td><% end %>
   </tr>
 <% end %>
 </table>
