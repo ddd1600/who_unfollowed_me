@@ -3,6 +3,7 @@
 <table cellpadding="10">
   <tr>
     <th>Date</th>
+    <th>Time (MST is t - 7 hours)</th>
     <th>Follower count</th>
     <th>Recent unfollows</th>
     <th>Recent follows</th>
@@ -11,6 +12,7 @@
 <% @entries.each do |entry| %>
   <tr>
     <td><%= entry.date %></td>
+    <td><%= entry.created_at.strftime("%I:%M %p %Z") %></td>
     <td><%= entry.followers_ary.count %></td>
     <td><%= entry.recently_unfollowed.join(", ") %></td>
     <% prev = Entry.find_by_id(entry.id - 1) %> <% if prev.nil? %><td></td><% else %>
